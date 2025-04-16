@@ -5,42 +5,26 @@ import google.generativeai as genai
 
 # Load environment variables
 load_dotenv()
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-# Configure Gemini API
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+# Configure API
+genai.configure(api_key=GOOGLE_API_KEY)
 
-# Initialize Gemini Pro model
+# Load model
 model = genai.GenerativeModel("gemini-pro")
 
-# Start a chat session (this can persist across messages)
-if "chat_session" not in st.session_state:
-    st.session_state.chat_session = model.start_chat(history=[])
+# Streamlit UI
+st.set_page_config(page_title="Gemini Pro QA")
+st.title("💬 Chat with Gemini Pro")
 
-# Streamlit page settings
-st.set_page_config(page_title="Q&A with Gemini")
-st.header("💬 Gemini Pro Q&A App")
+# User input
+user_input = st.text_input("Ask me anything:")
 
-# Chat input
-user_input = st.text_input("Ask something:", key="input")
-
-# Button to send query
-if st.button("Submit") and user_input:
-    with st.spinner("Thinking..."):
-        response = st.session_state.chat_session.send_message(user_input, stream=True)
-        full_response = ""
-        for chunk in response:
-            full_response += chunk.text
-            st.write(chunk.text)
-
-        # Store in session state
-        if "chat_history" not in st.session_state:
-            st.session_state.chat_history = []
-
-        st.session_state.chat_history.append(("You", user_input))
-        st.session_state.chat_history.append(("Gemini", full_response))
-
-# Display chat history
-if "chat_history" in st.session_state:
-    st.subheader("🕓 Chat History")
-    for role, text in st.session_state.chat_history:
-        st.markdown(f"**{role}:** {text}")
+# Generate response
+if st.button("Send") and user_input:
+    try:
+        response = model.generate_content(user_input)
+        st.markdown("### 🤖 Response")
+        st.write(response.text)
+    except Exception as e:
+        st.error(f"❌ Error: {str(e)}")
