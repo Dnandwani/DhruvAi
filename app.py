@@ -24,7 +24,7 @@ custom_html = """
         background: linear-gradient(90deg, #4285F4, #8E44AD, #E91E63, #FF5252);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-top: 20px;
+        margin-top: 10px;
         margin-bottom: 10px;
     }
 </style>
