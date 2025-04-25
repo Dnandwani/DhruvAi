@@ -11,7 +11,7 @@ model = genai.GenerativeModel(model_name="gemini-2.5-flash-preview-04-17")
 chat = model.start_chat(history=[])
 
 
-st.set_page_config(page_title="DhruvAi")
+st.set_page_config(page_title="DhruvA")
 
 custom_html = """
 <style>
