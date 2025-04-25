@@ -37,7 +37,7 @@ st.markdown(custom_html, unsafe_allow_html=True)
 
 
 
-user_input = st.chat_input("Input: ", key="input")
+user_input = st.input_text("Input: ", key="input")
 submit = st.button("Ask the question")
 
 def get_gemini_response(question):
