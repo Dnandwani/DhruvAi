@@ -11,7 +11,7 @@ model = genai.GenerativeModel(model_name="gemini-2.5-flash-preview-04-17")
 chat = model.start_chat(history=[])
 
 
-st.set_page_config(page_title="DhruvA")
+st.set_page_config(page_title="DhruvAi")
 
 custom_html = """
 <style>
@@ -37,7 +37,7 @@ st.markdown(custom_html, unsafe_allow_html=True)
 
 
 
-user_input = st.text_input("Input: ", key="input")
+user_input = st.chat_input("Input: ", key="input")
 submit = st.button("Ask the question")
 
 def get_gemini_response(question):
