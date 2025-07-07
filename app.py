@@ -7,7 +7,7 @@ import google.generativeai as genai
 
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+model = genai.GenerativeModel(model_name="gemini-2.5-pro")
 chat = model.start_chat(history=[])
 
 
