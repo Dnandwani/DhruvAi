@@ -22,22 +22,25 @@ for msg in st.session_state.messages:
 
 # Input box
 user_input = st.chat_input("Enter your message")
-
 if user_input:
     # Show user message
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # Get model response
-    response = model.invoke(user_input)
-    bot_reply = response.content if hasattr(response, "content") else str(response)
+    # Get model response (streaming)
+    response = chat.send_message(user_input, stream=True)
 
-    # Show assistant message
-    st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+    bot_reply = ""
     with st.chat_message("assistant"):
-        st.markdown(bot_reply)
+        msg_placeholder = st.empty()
+        for chunk in response:
+            bot_reply += chunk.text
+            msg_placeholder.markdown(bot_reply + "▌")
+        msg_placeholder.markdown(bot_reply)
 
+    # Save to history
+    st.session_state.messages.append({"role": "assistant", "content": bot_reply})
 
 st.set_page_config(page_title="Dhruv Ai")
 
@@ -63,10 +66,6 @@ custom_html = """
 """
 st.markdown(custom_html, unsafe_allow_html=True)
 
-
-
-user_input = st.text_input("Input: ", key="input")
-submit = st.button("Ask the question")
 
 def get_gemini_response(question):
     response = chat.send_message(question, stream=True)
