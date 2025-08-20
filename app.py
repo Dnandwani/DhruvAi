@@ -74,7 +74,4 @@ def get_gemini_response(question):
         full_response += chunk.text
     return full_response
 
-if submit and user_input:
-    st.subheader("The Response is")
-    answer = get_gemini_response(user_input)
-    st.write(answer)
+
